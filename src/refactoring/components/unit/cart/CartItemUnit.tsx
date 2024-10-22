@@ -10,10 +10,7 @@ interface ICartItem {
 export const CartItemUnit = ({ item, onClickRemove, onClickUpdate }: ICartItem) => {
   const appliedDiscount = getMaxApplicableDiscount(item);
   return (
-    <div
-      key={item.product.id}
-      className="flex justify-between items-center bg-white p-3 rounded shadow"
-    >
+    <div className="flex justify-between items-center bg-white p-3 rounded shadow">
       <div>
         <span className="font-semibold">{item.product.name}</span>
         <br />

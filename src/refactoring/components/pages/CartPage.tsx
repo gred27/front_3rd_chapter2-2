@@ -56,6 +56,7 @@ export const CartPage = ({ products, coupons }: Props) => {
             {cart.map((item) => {
               return (
                 <CartItemUnit
+                  key={item.product.id}
                   item={item}
                   onClickUpdate={updateQuantity}
                   onClickRemove={removeFromCart}
