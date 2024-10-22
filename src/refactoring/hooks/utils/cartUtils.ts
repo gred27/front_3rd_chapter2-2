@@ -16,7 +16,7 @@ export const getMaxApplicableDiscount = (item: CartItem) => {
 };
 
 export const calculateCartTotal = (cart: CartItem[], selectedCoupon: Coupon | null) => {
-  let totalBeforeDiscount = cart.reduce((total, item) => {
+  const totalBeforeDiscount = cart.reduce((total, item) => {
     return total + item.product.price * item.quantity;
   }, 0);
 
@@ -58,4 +58,8 @@ export const updateCartItemQuantity = (
       return item;
     })
     .filter((item): item is CartItem => item !== null);
+};
+
+export const getCartItemById = (cart: CartItem[], id: string): CartItem | undefined => {
+  return cart.find((item) => item.product.id === id);
 };
