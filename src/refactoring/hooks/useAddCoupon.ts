@@ -25,7 +25,7 @@ export const useAddCoupon = ({ onCouponAdd }: { onCouponAdd: (newCoupon: Coupon)
     (updatedKey: UpdatedKeyType) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setNewCoupon({ ...newCoupon, [updatedKey]: getUpdatedValue(updatedKey, e.target.value) });
 
-  const getUpdatedValue = (key: string, value: string) => {
+  const getUpdatedValue = (key: UpdatedKeyType, value: string) => {
     return key !== 'discountValue' ? value : parseInt(value);
   };
   return {

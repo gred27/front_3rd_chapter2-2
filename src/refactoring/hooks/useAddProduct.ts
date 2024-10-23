@@ -34,7 +34,7 @@ export const useAddProduct = ({ onProductAdd }: IUseAddProductProps) => {
     (updatedKey: UpdatedKeyType) => (e: React.ChangeEvent<HTMLInputElement>) =>
       setNewProduct({ ...newProduct, [updatedKey]: getUpdatedValue(updatedKey, e.target.value) });
 
-  const getUpdatedValue = (key: string, value: string) => {
+  const getUpdatedValue = (key: UpdatedKeyType, value: string) => {
     return key === 'name' ? value : parseInt(value);
   };
 
