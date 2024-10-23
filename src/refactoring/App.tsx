@@ -51,7 +51,7 @@ const initialCoupons: Coupon[] = [
 const App = () => {
   const { products, updateProduct, addProduct } = useProducts(initialProducts);
   const { coupons, addCoupon } = useCoupons(initialCoupons);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   const handleClickToggleBtn = useCallback(() => setIsAdmin((prevState) => !prevState), []);
 
