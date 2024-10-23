@@ -4,10 +4,10 @@ import { useCart } from '../../hooks/index';
 
 import { ContentSubTitle } from '../common/ContentSubTitle';
 import { ContentTitle } from '../common/ContentTitle';
-import { ProductItemCard } from '../unit/product/productItemCard';
+import { ProductItemCard } from '../unit/cart/ProductItemCard';
 import { CartItemUnit } from '../unit/cart/CartItemUnit';
-import { CouponSelect } from '../unit/\bCouponSelect';
-import { TotalPriceSummary } from '../unit/TotalPriceSummary';
+import { CouponSelect } from '../unit/cart/CouponSelect';
+import { TotalPriceSummary } from '../unit/cart/TotalPriceSummary';
 
 interface Props {
   products: Product[];
