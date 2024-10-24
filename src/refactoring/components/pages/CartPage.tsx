@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Coupon, Product } from '../../../types';
+import { Product } from '../../../types';
 import { useCart } from '../../hooks/index';
 
 import { ContentSubTitle } from '../common/ContentSubTitle';
@@ -8,13 +8,12 @@ import { ProductItemCard } from '../unit/cart/ProductItemCard';
 import { CartItemUnit } from '../unit/cart/CartItemUnit';
 import { CouponSelect } from '../unit/cart/CouponSelect';
 import { TotalPriceSummary } from '../unit/cart/TotalPriceSummary';
+import { useCouponContext } from '../../context/CouponContext';
+import { useProductContext } from '../../context/ProductContext';
 
-interface Props {
-  products: Product[];
-  coupons: Coupon[];
-}
-
-export const CartPage = ({ products, coupons }: Props) => {
+export const CartPage = () => {
+  const { coupons } = useCouponContext();
+  const { products } = useProductContext();
   const {
     cart,
     addToCart,

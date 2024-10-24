@@ -16,19 +16,7 @@ const App = () => {
       <CouponProvider>
         <div className="min-h-screen bg-gray-100">
           <Gnb isAdmin={isAdmin} onClick={handleClickToggleBtn} />
-          <MainContent>
-            {isAdmin ? (
-              <AdminPage
-                products={products}
-                coupons={coupons}
-                onProductUpdate={updateProduct}
-                onProductAdd={addProduct}
-                onCouponAdd={addCoupon}
-              />
-            ) : (
-              <CartPage products={products} coupons={coupons} />
-            )}
-          </MainContent>
+          <MainContent>{isAdmin ? <AdminPage /> : <CartPage />}</MainContent>
         </div>
       </CouponProvider>
     </ProductProvider>
