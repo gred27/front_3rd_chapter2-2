@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Discount, Product } from '../../types';
+import { getProductById } from './utils/productUtils';
 
 type UpdatedKeyType = keyof Discount;
 
@@ -9,21 +10,8 @@ interface IUseProductEditable {
 }
 
 export const useProductEditable = ({ products, onProductUpdate }: IUseProductEditable) => {
-  const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newDiscount, setNewDiscount] = useState<Discount>({ quantity: 0, rate: 0 });
-
-  const toggleProductAccordion = (productId: string) => {
-    setOpenProductIds((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(productId)) {
-        newSet.delete(productId);
-      } else {
-        newSet.add(productId);
-      }
-      return newSet;
-    });
-  };
 
   // handleEditProduct 함수 수정
   const handleEditProduct = (product: Product) => {
@@ -55,7 +43,7 @@ export const useProductEditable = ({ products, onProductUpdate }: IUseProductEdi
   };
 
   const handleStockUpdate = (productId: string, newStock: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+    const updatedProduct = getProductById(products, productId);
     if (updatedProduct) {
       const newProduct = { ...updatedProduct, stock: newStock };
       onProductUpdate(newProduct);
@@ -64,7 +52,7 @@ export const useProductEditable = ({ products, onProductUpdate }: IUseProductEdi
   };
 
   const handleAddDiscount = (productId: string) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+    const updatedProduct = getProductById(products, productId);
     if (updatedProduct && editingProduct) {
       const newProduct = {
         ...updatedProduct,
@@ -77,7 +65,7 @@ export const useProductEditable = ({ products, onProductUpdate }: IUseProductEdi
   };
 
   const handleRemoveDiscount = (productId: string, index: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+    const updatedProduct = getProductById(products, productId);
     if (updatedProduct) {
       const newProduct = {
         ...updatedProduct,
@@ -100,10 +88,9 @@ export const useProductEditable = ({ products, onProductUpdate }: IUseProductEdi
   };
 
   return {
-    openProductIds,
     editingProduct,
     newDiscount,
-    toggleProductAccordion,
+
     handleEditProduct,
     handleProductNameUpdate,
     handlePriceUpdate,

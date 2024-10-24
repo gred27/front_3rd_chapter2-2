@@ -1,6 +1,7 @@
 import { Product } from '../../../../types';
 import { useProductContext } from '../../../context/ProductContext';
 import { useProductEditable } from '../../../hooks/useProductEditable';
+import { useProductToggle } from '../../../hooks/useProductToggle';
 
 interface IProductItemEditable {
   index: number;
@@ -8,13 +9,11 @@ interface IProductItemEditable {
 }
 export const ProductItemEditable = ({ index, product }: IProductItemEditable) => {
   const { products, updateProduct } = useProductContext();
-
+  const { openProductIds, toggleProductAccordion } = useProductToggle();
   const {
-    openProductIds,
     editingProduct,
     newDiscount,
     handleChangeDisCountForm,
-    toggleProductAccordion,
     handleEditProduct,
     handleProductNameUpdate,
     handlePriceUpdate,
