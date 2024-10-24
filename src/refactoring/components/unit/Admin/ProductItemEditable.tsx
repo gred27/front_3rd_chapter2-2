@@ -1,18 +1,14 @@
 import { Product } from '../../../../types';
+import { useProductContext } from '../../../context/ProductContext';
 import { useProductEditable } from '../../../hooks/useProductEditable';
 
 interface IProductItemEditable {
   index: number;
-  products: Product[];
   product: Product;
-  onProductUpdate: (updatedProduct: Product) => void;
 }
-export const ProductItemEditable = ({
-  index,
-  products,
-  product,
-  onProductUpdate,
-}: IProductItemEditable) => {
+export const ProductItemEditable = ({ index, product }: IProductItemEditable) => {
+  const { products, updateProduct } = useProductContext();
+
   const {
     openProductIds,
     editingProduct,
@@ -26,7 +22,7 @@ export const ProductItemEditable = ({
     handleStockUpdate,
     handleAddDiscount,
     handleRemoveDiscount,
-  } = useProductEditable({ products, onProductUpdate });
+  } = useProductEditable({ products, onProductUpdate: updateProduct });
 
   return (
     <div data-testid={`product-${index + 1}`} className="bg-white p-4 rounded shadow">

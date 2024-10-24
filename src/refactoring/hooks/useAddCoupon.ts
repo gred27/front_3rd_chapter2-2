@@ -3,7 +3,7 @@ import { Coupon } from '../../types';
 
 type UpdatedKeyType = keyof Coupon;
 
-export const useAddCoupon = ({ onCouponAdd }: { onCouponAdd: (newCoupon: Coupon) => void }) => {
+export const useAddCoupon = () => {
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     name: '',
     code: '',
@@ -11,15 +11,13 @@ export const useAddCoupon = ({ onCouponAdd }: { onCouponAdd: (newCoupon: Coupon)
     discountValue: 0,
   });
 
-  const handleAddCoupon = () => {
-    onCouponAdd(newCoupon);
+  const initializeNewCoupon = () =>
     setNewCoupon({
       name: '',
       code: '',
       discountType: 'percentage',
       discountValue: 0,
     });
-  };
 
   const handleChangeCouponForm =
     (updatedKey: UpdatedKeyType) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
@@ -30,7 +28,7 @@ export const useAddCoupon = ({ onCouponAdd }: { onCouponAdd: (newCoupon: Coupon)
   };
   return {
     newCoupon,
-    handleAddCoupon,
+    initializeNewCoupon,
     handleChangeCouponForm,
   };
 };

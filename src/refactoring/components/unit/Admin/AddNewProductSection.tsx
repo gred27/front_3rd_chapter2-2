@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
-import { Product } from '../../../../types';
+
 import { useAddProduct } from '../../../hooks/useAddProduct';
-interface IAddNewProductSectionProps {
-  onProductAdd: (newProduct: Product) => void;
-}
-export const AddNewProductSection = ({ onProductAdd }: IAddNewProductSectionProps) => {
+import { useProductContext } from '../../../context/ProductContext';
+
+export const AddNewProductSection = () => {
+  const { addProduct } = useProductContext();
+
   const {
     showNewProductForm,
     newProduct,
@@ -15,9 +16,9 @@ export const AddNewProductSection = ({ onProductAdd }: IAddNewProductSectionProp
 
   const handleAddNewProduct = useCallback(() => {
     const productWithId = { ...newProduct, id: Date.now().toString() };
-    onProductAdd(productWithId);
+    addProduct(productWithId);
     initializeNewProduct();
-  }, [initializeNewProduct, newProduct, onProductAdd]);
+  }, [initializeNewProduct, newProduct, addProduct]);
 
   return (
     <>

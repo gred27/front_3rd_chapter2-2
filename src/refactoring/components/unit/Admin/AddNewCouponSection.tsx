@@ -1,12 +1,14 @@
-import { Coupon } from '../../../../types';
+import { useCouponContext } from '../../../context/CouponContext';
 import { useAddCoupon } from '../../../hooks/useAddCoupon';
 
-export const AddNewCouponSection = ({
-  onCouponAdd,
-}: {
-  onCouponAdd: (newCoupon: Coupon) => void;
-}) => {
-  const { newCoupon, handleAddCoupon, handleChangeCouponForm } = useAddCoupon({ onCouponAdd });
+export const AddNewCouponSection = () => {
+  const { addCoupon } = useCouponContext();
+  const { newCoupon, initializeNewCoupon, handleChangeCouponForm } = useAddCoupon();
+
+  const handleAddCoupon = () => {
+    addCoupon(newCoupon);
+    initializeNewCoupon();
+  };
   return (
     <div className="space-y-2 mb-4">
       <input

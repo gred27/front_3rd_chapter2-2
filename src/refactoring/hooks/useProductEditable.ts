@@ -103,7 +103,6 @@ export const useProductEditable = ({ products, onProductUpdate }: IUseProductEdi
     openProductIds,
     editingProduct,
     newDiscount,
-    setNewDiscount,
     toggleProductAccordion,
     handleEditProduct,
     handleProductNameUpdate,
