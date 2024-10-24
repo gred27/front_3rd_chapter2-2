@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Product } from '../../../../types';
 import { useAddProduct } from '../../../hooks/useAddProduct';
 interface IAddNewProductSectionProps {
@@ -7,10 +8,17 @@ export const AddNewProductSection = ({ onProductAdd }: IAddNewProductSectionProp
   const {
     showNewProductForm,
     newProduct,
+    initializeNewProduct,
     handleToggleShowNewProductBtn,
-    handleAddNewProduct,
     handleChangeProductForm,
-  } = useAddProduct({ onProductAdd });
+  } = useAddProduct();
+
+  const handleAddNewProduct = useCallback(() => {
+    const productWithId = { ...newProduct, id: Date.now().toString() };
+    onProductAdd(productWithId);
+    initializeNewProduct();
+  }, [initializeNewProduct, newProduct, onProductAdd]);
+
   return (
     <>
       <button

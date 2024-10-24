@@ -3,11 +3,7 @@ import { Product } from '../../types';
 
 type UpdatedKeyType = keyof Omit<Product, 'id' | 'discounts'>;
 
-interface IUseAddProductProps {
-  onProductAdd: (newProduct: Product) => void;
-}
-
-export const useAddProduct = ({ onProductAdd }: IUseAddProductProps) => {
+export const useAddProduct = () => {
   const [showNewProductForm, setShowNewProductForm] = useState(false);
   const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
     name: '',
@@ -15,10 +11,7 @@ export const useAddProduct = ({ onProductAdd }: IUseAddProductProps) => {
     stock: 0,
     discounts: [],
   });
-
-  const handleAddNewProduct = () => {
-    const productWithId = { ...newProduct, id: Date.now().toString() };
-    onProductAdd(productWithId);
+  const initializeNewProduct = () => {
     setNewProduct({
       name: '',
       price: 0,
@@ -41,8 +34,8 @@ export const useAddProduct = ({ onProductAdd }: IUseAddProductProps) => {
   return {
     showNewProductForm,
     newProduct,
+    initializeNewProduct,
     handleToggleShowNewProductBtn,
-    handleAddNewProduct,
     handleChangeProductForm,
   };
 };
