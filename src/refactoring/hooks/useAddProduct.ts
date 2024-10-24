@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Product } from '../../types';
 
 type UpdatedKeyType = keyof Omit<Product, 'id' | 'discounts'>;
@@ -11,7 +11,8 @@ export const useAddProduct = () => {
     stock: 0,
     discounts: [],
   });
-  const initializeNewProduct = () => {
+
+  const initializeNewProduct = useCallback(() => {
     setNewProduct({
       name: '',
       price: 0,
@@ -19,13 +20,18 @@ export const useAddProduct = () => {
       discounts: [],
     });
     setShowNewProductForm(false);
-  };
+  }, []);
 
-  const handleToggleShowNewProductBtn = () => setShowNewProductForm(!showNewProductForm);
+  const handleToggleShowNewProductBtn = useCallback(
+    () => setShowNewProductForm(!showNewProductForm),
+    [showNewProductForm],
+  );
 
-  const handleChangeProductForm =
+  const handleChangeProductForm = useCallback(
     (updatedKey: UpdatedKeyType) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      setNewProduct({ ...newProduct, [updatedKey]: getUpdatedValue(updatedKey, e.target.value) });
+      setNewProduct({ ...newProduct, [updatedKey]: getUpdatedValue(updatedKey, e.target.value) }),
+    [newProduct],
+  );
 
   const getUpdatedValue = (key: UpdatedKeyType, value: string) => {
     return key === 'name' ? value : parseInt(value);
