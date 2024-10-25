@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { describe, expect, test } from 'vitest';
 import { act, fireEvent, render, renderHook, screen, within } from '@testing-library/react';
 import { CartPage } from '../../refactoring/components/pages/CartPage';
@@ -6,6 +7,9 @@ import { AdminPage } from '../../refactoring/components/pages/AdminPage';
 import { CartItem, Coupon, Product } from '../../types';
 import { useCart, useCoupons, useProducts } from '../../refactoring/hooks';
 import * as cartUtils from '../../refactoring/hooks/utils/cartUtils';
+
+import { ProductContext } from '../../refactoring/context/ProductContext';
+import { CouponContext } from '../../refactoring/context/CouponContext';
 
 const mockProducts: Product[] = [
   {
@@ -45,39 +49,34 @@ const mockCoupons: Coupon[] = [
   },
 ];
 
-const TestAdminPage = () => {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [coupons, setCoupons] = useState<Coupon[]>(mockCoupons);
-
-  const handleProductUpdate = (updatedProduct: Product) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((p) => (p.id === updatedProduct.id ? updatedProduct : p)),
-    );
-  };
-
-  const handleProductAdd = (newProduct: Product) => {
-    setProducts((prevProducts) => [...prevProducts, newProduct]);
-  };
-
-  const handleCouponAdd = (newCoupon: Coupon) => {
-    setCoupons((prevCoupons) => [...prevCoupons, newCoupon]);
-  };
-
+const customRender = (
+  ui: any,
+  { productProviderProps, couponProviderProps, ...renderOptions }: any,
+) => {
   return (
-    <AdminPage
-      products={products}
-      coupons={coupons}
-      onProductUpdate={handleProductUpdate}
-      onProductAdd={handleProductAdd}
-      onCouponAdd={handleCouponAdd}
-    />
+    render(
+      <ProductContext.Provider value={productProviderProps}>
+        <CouponContext.Provider value={couponProviderProps}>{ui}</CouponContext.Provider>
+      </ProductContext.Provider>,
+    ),
+    renderOptions
   );
+};
+
+const TestAdminPage = () => {
+  return <AdminPage />;
 };
 
 describe('basic > ', () => {
   describe('시나리오 테스트 > ', () => {
     test('장바구니 페이지 테스트 > ', async () => {
-      render(<CartPage products={mockProducts} coupons={mockCoupons} />);
+      const { result: productResult } = renderHook(() => useProducts(mockProducts));
+      const { result: couponResult } = renderHook(() => useCoupons(mockCoupons));
+
+      customRender(<CartPage />, {
+        productProviderProps: { ...productResult.current },
+        couponProviderProps: { ...couponResult.current },
+      });
       const product1 = screen.getByTestId('product-p1');
       const product2 = screen.getByTestId('product-p2');
       const product3 = screen.getByTestId('product-p3');
@@ -154,8 +153,13 @@ describe('basic > ', () => {
     });
 
     test('관리자 페이지 테스트 > ', async () => {
-      render(<TestAdminPage />);
+      const { result: productResult } = renderHook(() => useProducts(mockProducts));
+      const { result: couponResult } = renderHook(() => useCoupons(mockCoupons));
 
+      customRender(<TestAdminPage />, {
+        productProviderProps: { ...productResult.current },
+        couponProviderProps: { ...couponResult.current },
+      });
       const $product1 = screen.getByTestId('product-1');
 
       // 1. 새로운 상품 추가

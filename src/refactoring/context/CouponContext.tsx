@@ -5,7 +5,7 @@ import { initialCoupons } from '../mock';
 
 type ICouponContext = ReturnType<typeof useCoupons>;
 
-const [CouponContextProvider, useCouponContext] = createContext<ICouponContext>({
+const [CouponContextProvider, useCouponContext, CouponContext] = createContext<ICouponContext>({
   name: 'Coupon',
 });
 
@@ -15,4 +15,4 @@ const CouponProvider = ({ children }: { children: React.ReactNode }) => {
   return <CouponContextProvider value={contextValue}>{children}</CouponContextProvider>;
 };
 
-export { CouponProvider, useCouponContext };
+export { CouponProvider, useCouponContext, CouponContext };

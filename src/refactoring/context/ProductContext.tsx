@@ -5,7 +5,7 @@ import { initialProducts } from '../mock';
 
 type IProductContext = ReturnType<typeof useProducts>;
 
-const [ProductContextProvider, useProductContext] = createContext<IProductContext>({
+const [ProductContextProvider, useProductContext, ProductContext] = createContext<IProductContext>({
   name: 'Product',
 });
 
@@ -18,4 +18,4 @@ const ProductProvider = ({ children }: { children: React.ReactNode }) => {
   return <ProductContextProvider value={contextValue}>{children}</ProductContextProvider>;
 };
 
-export { ProductProvider, useProductContext };
+export { ProductProvider, useProductContext, ProductContext };
